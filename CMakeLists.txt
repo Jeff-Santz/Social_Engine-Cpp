@@ -5,20 +5,19 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # --- 1. CONFIGURAR CAMINHOS DO OPENSSL ---
-set(OPENSSL_ROOT_DIR "C:/Program Files/OpenSSL-Win64")
+set(OPENSSL_ROOT_DIR "C:/msys64/ucrt64")
 set(OPENSSL_INCLUDE_DIR "${OPENSSL_ROOT_DIR}/include")
 
-# Caminhos específicos encontrados no seu diretório
-set(OPENSSL_CRYPTO_LIBRARY "${OPENSSL_ROOT_DIR}/lib/VC/x64/MD/libcrypto.lib")
-set(OPENSSL_SSL_LIBRARY "${OPENSSL_ROOT_DIR}/lib/VC/x64/MD/libssl.lib")
+set(OPENSSL_CRYPTO_LIBRARY "${OPENSSL_ROOT_DIR}/lib/libcrypto.dll.a")
+set(OPENSSL_SSL_LIBRARY "${OPENSSL_ROOT_DIR}/lib/libssl.dll.a")
 
-# Informar ao CMake que já encontramos os componentes
 set(OPENSSL_LIBRARIES ${OPENSSL_SSL_LIBRARY} ${OPENSSL_CRYPTO_LIBRARY})
 set(OPENSSL_FOUND TRUE)
 
-message(STATUS ">> OpenSSL Manual Configuration:")
+message(STATUS ">> OpenSSL Manual Configuration (MSYS2 UCRT64):")
 message(STATUS ">> Include: ${OPENSSL_INCLUDE_DIR}")
 message(STATUS ">> Crypto Lib: ${OPENSSL_CRYPTO_LIBRARY}")
+message(STATUS ">> SSL Lib: ${OPENSSL_SSL_LIBRARY}")
 
 # --- 2. CONFIGURAR FONTES DO PROJETO ---
 file(GLOB_RECURSE SOURCES 
