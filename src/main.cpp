@@ -180,49 +180,51 @@ int main() {
     // --- ROTA DA HOME (SERVE O FRONTEND) ---
     // ROTA PRINCIPAL
     CROW_ROUTE(app, "/")
-    ([](){
-        std::vector<std::string> paths = {
-            "index.html", 
-            "frontend/index.html",
-            "../frontend/index.html",
-            "../../frontend/index.html"
-        };
-
-        std::ifstream in;
-        std::string foundPath = "";
-
-        for (const auto& path : paths) {
-            // DEBUG: Mostra onde está procurando
-            std::cout << ">> Tentando abrir: " << path << "... "; 
-            
-            in.open(path);
-            if (in.is_open()) {
-                std::cout << "ENCONTRADO!" << std::endl; // <--- Dedura
-                foundPath = path;
-                break;
-            } else {
-                std::cout << "X" << std::endl;
-            }
-            in.clear();
-        }
-
+    ([](const crow::request&, crow::response& res){
+        std::ifstream in("dist/index.html", std::ios::binary);
         if (in.is_open()) {
             std::ostringstream contents;
             contents << in.rdbuf();
-            in.close();
-            
-            std::string html = contents.str();
-            
-            // DEBUG: Verifica se o arquivo está vazio
-            if (html.empty()) {
-                 std::cout << ">> ALERTA: O arquivo " << foundPath << " esta VAZIO (0 bytes)!" << std::endl;
-                 return crow::response(500, "ERRO: O arquivo index.html existe mas esta vazio.");
-            }
-
-            return crow::response(html);
+            res.add_header("Content-Type", "text/html");
+            res.write(contents.str());
         } else {
-            return crow::response(404, "ERRO 404: Index.html nao encontrado.");
+            res.code = 404;
+            res.write("Erro: dist/index.html nao encontrado. Rode 'npm run build' no frontend.");
         }
+        res.end();
+    });
+
+    // 2. Rota Catch-All (Assets JS/CSS e Fallback do Vue Router)
+    CROW_ROUTE(app, "/<path>")
+    ([](const crow::request&, crow::response& res, std::string path){
+        std::string full_path = "dist/" + path;
+        std::ifstream file(full_path, std::ios::binary);
+
+        if (file.is_open()) {
+            std::ostringstream contents;
+            contents << file.rdbuf();
+
+            // O navegador bloqueia arquivos sem o MIME Type correto
+            if (path.find(".js") != std::string::npos) res.add_header("Content-Type", "application/javascript");
+            else if (path.find(".css") != std::string::npos) res.add_header("Content-Type", "text/css");
+            else if (path.find(".svg") != std::string::npos) res.add_header("Content-Type", "image/svg+xml");
+            else if (path.find(".ico") != std::string::npos) res.add_header("Content-Type", "image/x-icon");
+
+            res.write(contents.str());
+        } else {
+            // SPA Fallback: Se for uma rota do Vue (ex: /perfil), devolve o index.html
+            std::ifstream index("dist/index.html", std::ios::binary);
+            if (index.is_open()) {
+                std::ostringstream contents;
+                contents << index.rdbuf();
+                res.add_header("Content-Type", "text/html");
+                res.write(contents.str());
+            } else {
+                res.code = 404;
+                res.write("404 Not Found");
+            }
+        }
+        res.end();
     });
 
     // -----------------------------------------------------------------------

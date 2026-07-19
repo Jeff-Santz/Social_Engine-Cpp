@@ -1,0 +1,39 @@
+/*
+ * Tokens de cor do tema escuro original.
+ * Extraídos 1:1 do <style> do index.html antigo — nenhum valor foi alterado,
+ * apenas nomeados para reduzir repetição entre base.css e components.css.
+ */
+:root {
+  --color-bg: #0a0a0a;
+  --color-text: #e0e0e0;
+  --color-text-soft: #aaa;
+  --color-text-muted: #888;
+  --color-text-dim: #666;
+
+  --color-surface: #1a1a1a;
+  --color-surface-alt: #222;
+  --color-border: #333;
+  --color-border-light: #444;
+
+  --color-accent: #4a9eff;
+
+  --color-primary: #1d4ed8;
+  --color-primary-hover: #2563eb;
+  --color-danger: #b91c1c;
+  --color-danger-hover: #dc2626;
+  --color-success: #15803d;
+  --color-success-hover: #16a34a;
+  --color-secondary: #444;
+  --color-secondary-hover: #555;
+  --color-pending: #6b7280;
+
+  --color-error: #f87171;
+  --color-success-text: #4ade80;
+  --color-warning: #fbbf24;
+  --color-purple: #7c3aed;
+  --color-purple-hover: #8b5cf6;
+
+  --color-liked-bg: #3a1a1a;
+  --color-notification-hover: #252535;
+  --color-notification-unread-bg: #1a2a3a;
+}
