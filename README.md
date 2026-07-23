@@ -112,3 +112,7 @@ This project is a **proof of concept whose main goal is the backend**, not the f
 
 * **Backend (C++):** Every architectural decision — data model, endpoints, privacy rules, role hierarchy, i18n system, etc. — was designed and structured by me. AI was used to generate the "boring", repetitive parts of the code, but all of it was fully reviewed and directed by me end-to-end.
 * **Frontend (Vue.js):** Written entirely by AI. It exists to exercise and demonstrate the backend API, not as the focus of this project.
+
+# Demo
+
+[![Watch the video](https://img.youtube.com/vi/LBEs05LCzN0/0.jpg)](https://www.youtube.com/watch?v=LBEs05LCzN0)
