@@ -13,6 +13,10 @@ Remove-Item -Recurse -Force "$BACKEND_BUILD_DIR\dist" -ErrorAction SilentlyConti
 # 3. Compila o Frontend
 Write-Host ">> Executando npm run build no Frontend..."
 Set-Location -Path $FRONTEND_DIR
+if (-Not (Test-Path -Path "node_modules")) {
+    Write-Host ">> node_modules não encontrado, rodando npm install..."
+    npm install
+}
 npm run build
 
 # 4. Verifica se a compilação gerou a pasta dist

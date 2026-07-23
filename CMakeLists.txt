@@ -36,6 +36,7 @@ target_include_directories(sqlite_lib PUBLIC libs/sqlite)
 
 # --- 4. CRIAR O EXECUTÁVEL ---
 add_executable(SocialEngine ${SOURCES})
+target_compile_definitions(SocialEngine PRIVATE DBL_DECIMAL_DIG=17)
 
 # --- 5. DIRETÓRIOS DE INCLUSÃO (HEADERS) ---
 target_include_directories(SocialEngine PRIVATE 
